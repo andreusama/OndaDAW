@@ -70,6 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(SolutionDir)\ThirdParty\sdl3\lib\x64;$(SolutionDir)\ThirdParty\imgui\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\ThirdParty\imgui-src\backends\sdlgpu3;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -105,11 +109,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\ThirdParty\imgui-src;$(SolutionDir)\ThirdParty\sdl3-src\include;$(SolutionDir)\ThirdParty\sdl3\lib\x64;$(SolutionDir)\ThirdParty\imgui\lib\x64;$(SolutionDir)\ThirdParty\imgui-src\backends;$(SolutionDir)\ThirdParty\miniaudio-0.11.22;$(SolutionDir)\ThirdParty\glad-2.0.8\glad\generator\c\templates;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\sdl3\lib\x64;$(SolutionDir)\ThirdParty\imgui\lib\x64;$(SolutionDir)\ThirdParty\openGL\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3.lib;imgui_lib.lib;OpenGL32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -1,25 +1,46 @@
-// LearnC++.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
-//
+#include "SDL3/SDL.h"
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+#define MINIAUDIO_IMPLEMENTATION
+#include "miniaudio.h"
+#include "gl/GL.h"
 
-#include <iostream>
+int main(int argc, char* argv[]) {
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Window* win = SDL_CreateWindow("Mini DAW", 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    SDL_GLContext ctx = SDL_GL_CreateContext(win);
+    ImGui::CreateContext();
+    ImGui_ImplSDL3_InitForOpenGL(win, ctx);
+    ImGui_ImplOpenGL3_Init("#version 150");
 
-int main()
-{
-    std::cout << "Enter a number: "; // ask user for a number
+    bool run = true;
+    while (run) {
+        SDL_Event e;
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_EVENT_QUIT) run = false;
+            ImGui_ImplSDL3_ProcessEvent(&e);
+        }
+        ImGui_ImplSDL3_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
 
-    int x{};       // define variable x to hold user input (and value-initialize it)
-    std::cin >> x; // get number from keyboard and store it in variable x
+        ImGui::Begin("Audio Engine");
+        ImGui::Text("Mini DAW UI ready!");
+        ImGui::End();
 
-    std::cout << "You entered " << x << '\n';
+        ImGui::Render();
+        glViewport(0, 0, 800, 600);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        SDL_GL_SwapWindow(win);
+    }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL3_Shutdown();
+    ImGui::DestroyContext();
+    SDL_GL_DestroyContext(ctx);
+    SDL_DestroyWindow(win);
+    SDL_Quit();
     return 0;
 }
-
-// Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
-// Depurar programa: F5 o menú Depurar > Iniciar depuración
-
-// Sugerencias para primeros pasos: 1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
-//   2. Use la ventana de Team Explorer para conectar con el control de código fuente
-//   3. Use la ventana de salida para ver la salida de compilación y otros mensajes
-//   4. Use la ventana Lista de errores para ver los errores
-//   5. Vaya a Proyecto > Agregar nuevo elemento para crear nuevos archivos de código, o a Proyecto > Agregar elemento existente para agregar archivos de código existentes al proyecto
-//   6. En el futuro, para volver a abrir este proyecto, vaya a Archivo > Abrir > Proyecto y seleccione el archivo .sln
