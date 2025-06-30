@@ -1,6 +1,7 @@
 // Application.h
 #pragma once
 #include "Window.h"
+#include <memory>
 
 class Application {
 public:
@@ -8,6 +9,6 @@ public:
     ~Application();
     void Run();
 private:
-    Window* window_;
+    std::unique_ptr<Window> window_;
     bool running_;
 };

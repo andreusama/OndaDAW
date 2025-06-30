@@ -1,4 +1,5 @@
 // Application.cpp
+#include "Windows.h"
 #include "Application.h"
 #include "Window.h"
 #include <SDL3/SDL.h>
@@ -7,18 +8,13 @@
 #include "imgui_impl_opengl3.h"
 #include "gl/GL.h"
 #include <stdexcept>
-#include "gl.h"
 
+#include <memory> // Add this include
 
 Application::Application()
-    : window_(nullptr), running_(false)
+    : window_(std::make_unique<Window>("Mini DAW", 800, 600)), running_(false)
 {
-    Window window("Mini DAW", 800, 600);
-    window_ = &window;
 
-    ImGui::CreateContext();
-    ImGui_ImplSDL3_InitForOpenGL(window_->GetSDLWindow(), window.GetSDL_GLContext());
-    ImGui_ImplOpenGL3_Init("#version 150");
 }
 
 Application::~Application()
@@ -30,6 +26,10 @@ Application::~Application()
 
 void Application::Run()
 {
+    ImGui::CreateContext();
+    ImGui_ImplSDL3_InitForOpenGL(window_->GetSDLWindow(), window_->GetSDL_GLContext());
+    ImGui_ImplOpenGL3_Init("#version 150");
+
     bool run = true;
     while (run) 
     {
