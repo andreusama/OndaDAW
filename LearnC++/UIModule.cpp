@@ -5,8 +5,16 @@ void UIModule::Init(SDL_Window* window, SDL_GLContext gl_context) {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
+    SDL_GL_MakeCurrent(window, gl_context);
+
     ImGui_ImplSDL3_InitForOpenGL(window, gl_context);
     ImGui_ImplOpenGL3_Init();
+
+}
+
+void UIModule::DefaultView()
+{
+	AddPanel("Demo Window", []() { ImGui::ShowDemoWindow(); });
 }
 
 void UIModule::Shutdown() {
@@ -32,7 +40,15 @@ void UIModule::RenderPanels() {
         ImGui::End();
     }
     ImGui::Render();
+
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void UIModule::Update() {
+    NewFrame();
+
+    
+    RenderPanels();
 }
 
 void UIModule::AddPanel(const std::string& name, std::function<void()> renderFunc) {

@@ -38,16 +38,13 @@ SDL_GLContext Window::GetSDL_GLContext() const {
 }
 
 void Window::ProcessEvents(SDL_Event* event) {
-
-	while (SDL_PollEvent(event)) {
-		switch (event->type) {
-		case SDL_EVENT_QUIT:
-			shouldClose_ = true;
-			break;
-		case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
-			shouldClose_ = true;
-			break;
-			// Add more cases for keyboard, mouse, resize, etc.
-		}
+	switch (event->type) {
+	case SDL_EVENT_QUIT:
+		shouldClose_ = true;
+		break;
+	case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+		shouldClose_ = true;
+		break;
+		// Add more cases for keyboard, mouse, resize, etc.
 	}
 }

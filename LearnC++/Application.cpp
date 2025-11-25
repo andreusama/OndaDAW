@@ -21,6 +21,10 @@ Application::~Application()
 void Application::Run()
 {
     ui_->Init(window_->GetSDLWindow(), window_->GetSDL_GLContext());
+    ui_->DefaultView();
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigDebugBeginReturnValueOnce = true; // Forces errors to appear in logs
 
     while (!window_->ShouldClose())
     {
@@ -31,11 +35,14 @@ void Application::Run()
             ui_->ProcessEvent(&e);
         }
 
-        ui_->NewFrame();
-        ui_->RenderPanels();
-
+        //All glViewport does is define the area of the drawing context that you will actually draw to.
         glViewport(0, 0, 800, 600);
+        //GL_COLOR_BUFFER_BIT and GL_DEPTH_BUFFER_BIT aren't functions, they're constants. 
+        //You use them to tell glClear() which buffers you want it to clear - in your example, the depth buffer and the "buffers currently enabled for color writing
         glClear(GL_COLOR_BUFFER_BIT);
+
+        ui_->Update();
+
         SDL_GL_SwapWindow(window_->GetSDLWindow());
     }
 }

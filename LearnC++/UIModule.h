@@ -7,6 +7,7 @@
 #include <string>
 #include <functional>
 
+
 class UIModule {
     public:
         void Init(SDL_Window*, SDL_GLContext);
@@ -15,7 +16,11 @@ class UIModule {
         void NewFrame();
         void RenderPanels();
         void AddPanel(const std::string& name, std::function<void()> renderFunc);
+        void DefaultView();
+        void Update();
+
     private:
         struct Panel { std::string name; std::function<void()> renderFunc; };
         std::vector<Panel> panels_;
 };  
+
