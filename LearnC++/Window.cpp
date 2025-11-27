@@ -4,12 +4,16 @@
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
+#include <glew.h>
 
 Window::Window(const char* title, int width, int height)
 	: shouldClose_(false) {
 	SDL_Init(SDL_INIT_VIDEO);
 	window_ = SDL_CreateWindow(title, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	gl_context_ = SDL_GL_CreateContext(window_);
+
+	glewInit();
+
 	if (!gl_context_)
 	{
 		throw std::runtime_error("Failed to create SDL_GL context");

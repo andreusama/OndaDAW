@@ -3,9 +3,8 @@
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
-#include <vector>
-#include <string>
-#include <functional>
+#include <memory>
+#include "Panel.h"
 
 
 class UIModule {
@@ -15,12 +14,11 @@ class UIModule {
         void ProcessEvent(SDL_Event*);
         void NewFrame();
         void RenderPanels();
-        void AddPanel(const std::string& name, std::function<void()> renderFunc);
-        void DefaultView();
+        void AddPanel(std::unique_ptr<Panel> panel);
+        void AddViewportPanel();
         void Update();
 
     private:
-        struct Panel { std::string name; std::function<void()> renderFunc; };
-        std::vector<Panel> panels_;
+        std::vector<std::unique_ptr<Panel>> panels_;
 };  
 

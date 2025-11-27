@@ -1,9 +1,11 @@
 #include "UIModule.h"
+#include "ViewportPanel.h"
 
 void UIModule::Init(SDL_Window* window, SDL_GLContext gl_context) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ImGui::StyleColorsDark();
     SDL_GL_MakeCurrent(window, gl_context);
 
@@ -12,9 +14,9 @@ void UIModule::Init(SDL_Window* window, SDL_GLContext gl_context) {
 
 }
 
-void UIModule::DefaultView()
+void UIModule::AddViewportPanel()
 {
-	AddPanel("Demo Window", []() { ImGui::ShowDemoWindow(); });
+	AddPanel(std::make_unique<ViewportPanel>(800, 600));
 }
 
 void UIModule::Shutdown() {
@@ -35,8 +37,8 @@ void UIModule::NewFrame() {
 
 void UIModule::RenderPanels() {
     for (auto& panel : panels_) {
-        ImGui::Begin(panel.name.c_str());
-        panel.renderFunc();
+        ImGui::Begin(panel.get()->GetName().c_str());
+        panel.get()->Render();
         ImGui::End();
     }
     ImGui::Render();
@@ -45,12 +47,30 @@ void UIModule::RenderPanels() {
 }
 
 void UIModule::Update() {
+    
     NewFrame();
 
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking |
+        ImGuiWindowFlags_NoTitleBar |
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoBringToFrontOnFocus |
+        ImGuiWindowFlags_NoNavFocus;
+
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(io.DisplaySize);
+
+    ImGui::Begin("DockSpaceRoot", nullptr, window_flags);
+
+    ImGui::DockSpace(ImGui::GetID("MainDockSpace"));
+    ImGui::End();
     
     RenderPanels();
 }
 
-void UIModule::AddPanel(const std::string& name, std::function<void()> renderFunc) {
-    panels_.push_back({name, renderFunc});
+void UIModule::AddPanel(std::unique_ptr<Panel> panel) {
+    panels_.emplace_back(std::move(panel));
 }

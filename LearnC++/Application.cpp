@@ -8,8 +8,7 @@
 #include <memory>
 #include <gl/GL.h>
 
-Application::Application()
-    : window_(std::make_unique<Window>("Mini DAW", 800, 600)), running_(false), ui_(std::make_unique<UIModule>())
+Application::Application(): window_(std::make_unique<Window>("Mini DAW", 800, 600)), running_(false), ui_(std::make_unique<UIModule>())
 {
 }
 
@@ -21,10 +20,8 @@ Application::~Application()
 void Application::Run()
 {
     ui_->Init(window_->GetSDLWindow(), window_->GetSDL_GLContext());
-    ui_->DefaultView();
+    ui_->AddViewportPanel();
 
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigDebugBeginReturnValueOnce = true; // Forces errors to appear in logs
 
     while (!window_->ShouldClose())
     {
@@ -34,7 +31,6 @@ void Application::Run()
             window_->ProcessEvents(&e);
             ui_->ProcessEvent(&e);
         }
-
         //All glViewport does is define the area of the drawing context that you will actually draw to.
         glViewport(0, 0, 800, 600);
         //GL_COLOR_BUFFER_BIT and GL_DEPTH_BUFFER_BIT aren't functions, they're constants. 
