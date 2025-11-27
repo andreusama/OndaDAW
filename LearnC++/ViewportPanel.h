@@ -1,6 +1,7 @@
 #pragma once
 #include "Panel.h"
 #include <memory>
+#include "Grid.h"
 
 class ViewportPanel : public Panel
 {
@@ -23,4 +24,5 @@ public:
 	};
 
 	std::unique_ptr<Viewport> viewport_;
+	std::unique_ptr<Grid> grid_;
 };

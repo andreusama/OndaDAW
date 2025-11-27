@@ -22,7 +22,6 @@ void Application::Run()
     ui_->Init(window_->GetSDLWindow(), window_->GetSDL_GLContext());
     ui_->AddViewportPanel();
 
-
     while (!window_->ShouldClose())
     {
         SDL_Event e;
