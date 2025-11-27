@@ -11,7 +11,7 @@ public:
 	Panel(const std::string& panelName);
 	~Panel();
 
-	virtual void Render() = 0;
+	virtual void Render(float deltaTime) = 0;
 
 	const std::string& GetName() const { return name; }
 

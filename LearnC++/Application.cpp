@@ -8,7 +8,7 @@
 #include <memory>
 #include <gl/GL.h>
 
-Application::Application(): window_(std::make_unique<Window>("Mini DAW", 800, 600)), running_(false), ui_(std::make_unique<UIModule>())
+Application::Application(): window_(std::make_unique<Window>("Mini DAW", 800, 600)), running_(false), ui_(std::make_unique<UIModule>()), inputModule_(std::make_unique<InputModule>())
 {
 }
 
@@ -20,10 +20,16 @@ Application::~Application()
 void Application::Run()
 {
     ui_->Init(window_->GetSDLWindow(), window_->GetSDL_GLContext());
-    ui_->AddViewportPanel();
+    ui_->AddViewportPanel(inputModule_.get());
+
+    float lastTime = 0.0f;
 
     while (!window_->ShouldClose())
     {
+        float currentTime = SDL_GetTicks() / 1000.0f; // Convert ms to seconds
+        float deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
@@ -36,7 +42,7 @@ void Application::Run()
         //You use them to tell glClear() which buffers you want it to clear - in your example, the depth buffer and the "buffers currently enabled for color writing
         glClear(GL_COLOR_BUFFER_BIT);
 
-        ui_->Update();
+        ui_->Update(deltaTime);
 
         SDL_GL_SwapWindow(window_->GetSDLWindow());
     }

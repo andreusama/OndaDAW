@@ -14,9 +14,9 @@ void UIModule::Init(SDL_Window* window, SDL_GLContext gl_context) {
 
 }
 
-void UIModule::AddViewportPanel()
+void UIModule::AddViewportPanel(InputModule* inputModule)
 {
-	AddPanel(std::make_unique<ViewportPanel>(800, 600));
+	AddPanel(std::make_unique<ViewportPanel>(800, 600, inputModule));
 }
 
 void UIModule::Shutdown() {
@@ -35,10 +35,10 @@ void UIModule::NewFrame() {
     ImGui::NewFrame();
 }
 
-void UIModule::RenderPanels() {
+void UIModule::RenderPanels(float deltaTime) {
     for (auto& panel : panels_) {
         ImGui::Begin(panel.get()->GetName().c_str());
-        panel.get()->Render();
+        panel.get()->Render(deltaTime);
         ImGui::End();
     }
     ImGui::Render();
@@ -46,7 +46,7 @@ void UIModule::RenderPanels() {
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void UIModule::Update() {
+void UIModule::Update(float deltaTime) {
     
     NewFrame();
 
@@ -68,7 +68,7 @@ void UIModule::Update() {
     ImGui::DockSpace(ImGui::GetID("MainDockSpace"));
     ImGui::End();
     
-    RenderPanels();
+    RenderPanels(deltaTime);
 }
 
 void UIModule::AddPanel(std::unique_ptr<Panel> panel) {

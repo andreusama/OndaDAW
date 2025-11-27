@@ -6,6 +6,7 @@
 #include <memory>
 #include "Panel.h"
 
+class InputModule;
 
 class UIModule {
     public:
@@ -13,10 +14,10 @@ class UIModule {
         void Shutdown();
         void ProcessEvent(SDL_Event*);
         void NewFrame();
-        void RenderPanels();
+        void RenderPanels(float deltaTime);
         void AddPanel(std::unique_ptr<Panel> panel);
-        void AddViewportPanel();
-        void Update();
+        void AddViewportPanel(InputModule* inputModule);
+        void Update(float deltaTime);
 
     private:
         std::vector<std::unique_ptr<Panel>> panels_;

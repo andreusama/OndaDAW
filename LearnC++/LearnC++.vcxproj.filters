@@ -30,6 +30,9 @@
     <ClCompile Include="UIModule.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="InputModule.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
     <ClCompile Include="Panel.cpp">
       <Filter>Panels</Filter>
     </ClCompile>
@@ -37,6 +40,15 @@
       <Filter>Panels</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessBoard.cpp">
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="$(SolutionDir)ThirdParty\imgui-src\imgui.cpp">
@@ -71,6 +83,9 @@
     <ClInclude Include="UIModule.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="InputModule.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
     <ClInclude Include="Panel.h">
       <Filter>Panels</Filter>
     </ClInclude>
@@ -78,6 +93,18 @@
       <Filter>Panels</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="ChessBoard.h">
       <Filter>Other</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,9 +1,10 @@
 #include "ViewportPanel.h"
 #include <glew.h>
 #include "imgui.h"
+#include "InputModule.h"
 
 
-ViewportPanel::ViewportPanel(int w, int h) : Panel("Viewport"), viewport_(std::make_unique<Viewport>(0, 0, 0, w, h)), grid_(std::make_unique<Grid>(10, 10)), camera_(std::make_unique<Camera>())
+ViewportPanel::ViewportPanel(int w, int h, InputModule* inputModule) : Panel("Viewport"), viewport_(std::make_unique<Viewport>(0, 0, 0, w, h)), grid_(std::make_unique<Grid>(8, 8)), chessBoard_(std::make_unique<ChessBoard>()), camera_(std::make_unique<Camera>()), inputModule_(inputModule)
 {
 	CreateViewportFramebuffer();
 }
@@ -54,9 +55,18 @@ void ViewportPanel::RecreateFramebuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ViewportPanel::Render() 
+void ViewportPanel::Render(float deltaTime)
 {
 	ImGui::Begin("3D Viewport");
+
+	// Process input only when viewport is focused
+	if (ImGui::IsWindowFocused()) {
+		inputModule_->ProcessKeyboardInput(camera_.get(), deltaTime);
+	}
+
+	// Process mouse input when viewport is hovered
+	inputModule_->ProcessMouseInput(camera_.get(), ImGui::IsWindowFocused(), ImGui::IsWindowHovered());
+
 	ImVec2 panelSize = ImGui::GetContentRegionAvail();
 	int newWidth = (int)panelSize.x;
 	int newHeight = (int)panelSize.y;
@@ -91,5 +101,6 @@ void ViewportPanel::RenderScene()
 	float aspectRatio = (float)viewport_->width / (float)viewport_->height;
 	glm::mat4 mvp = camera_->GetMVPMatrix(model, aspectRatio);
 
+	chessBoard_->DrawBoard(mvp);
 	grid_->DrawGrid(mvp);
 }

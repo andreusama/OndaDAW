@@ -2,17 +2,20 @@
 #include "Panel.h"
 #include <memory>
 #include "Grid.h"
+#include "ChessBoard.h"
 #include "Camera.h"
+
+class InputModule;
 
 class ViewportPanel : public Panel
 {
 public:
-	ViewportPanel(int w, int h);
+	ViewportPanel(int w, int h, InputModule* inputModule);
 	~ViewportPanel();
 
 	void CreateViewportFramebuffer();
 	void RecreateFramebuffer();
-	void Render() override;
+	void Render(float deltaTime) override;
 	void RenderScene();
 
 	struct Viewport {
@@ -26,5 +29,7 @@ public:
 
 	std::unique_ptr<Viewport> viewport_;
 	std::unique_ptr<Grid> grid_;
+	std::unique_ptr<ChessBoard> chessBoard_;
 	std::unique_ptr<Camera> camera_;
+	InputModule* inputModule_;
 };
