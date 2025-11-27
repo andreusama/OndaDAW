@@ -1,32 +1,21 @@
 #include "Grid.h"
 #include "ShaderLoader.h"
 
-Grid::Grid()
+Grid::Grid(int rows, int columns)
 {
+	if (VAO != 0) glDeleteVertexArrays(1, &VAO);
+	if (VBO != 0) glDeleteBuffers(1, &VBO);
+	VAO = 0;
+	VBO = 0;
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	InitializeShader();
-}
 
-Grid::~Grid()
-{
-}
+	vertices_ = Create3DGrid(rows, columns);
+	vertexCount_ = vertices_.size() / 3; // 3 components per vertex
 
-void Grid::InitializeShader()
-{
-	shaderProgram_ = ShaderLoader::LoadShaders(
-		"LearnC++/shaders/grid.vert",
-		"LearnC++/shaders/grid.frag"
-	);
-
-}
-
-void Grid::Draw3DLine(float x1, float y1, float z1, float x2, float y2, float z2, const glm::mat4& mvp)
-{
-	float vertices[] = {
-		x1, y1, z1,
-		x2, y2, z2
-	};
-
-	//Creates vao and then binds it (record)
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 
@@ -34,7 +23,7 @@ void Grid::Draw3DLine(float x1, float y1, float z1, float x2, float y2, float z2
 
 	//Bind and upload data to VBO
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices_.size() * sizeof(float), vertices_.data(), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(
 		0, //Attribute 0 (matches "layour(location = 0)" - TODO: Check more info about this
@@ -46,7 +35,49 @@ void Grid::Draw3DLine(float x1, float y1, float z1, float x2, float y2, float z2
 	);
 
 	glEnableVertexAttribArray(0); //Enable attribute 0
+	glBindVertexArray(0); //Unbind VAO
 
+}
+
+Grid::~Grid()
+{
+}
+
+void Grid::InitializeShader()
+{
+	shaderProgram_ = ShaderLoader::LoadShaders(
+		"../LearnC++/shaders/grid.vert",
+		"../LearnC++/shaders/grid.frag"
+	);
+}
+
+std::vector<float> Grid::Create3DGrid(int rows, int columns)
+{
+	std::vector<float> vertices;
+	float spacing = 1.0f; // Spacing between grid lines
+	// Create lines along the X axis
+	for (int i = -rows / 2; i <= rows / 2; ++i) {
+		vertices.push_back(-columns / 2 * spacing); // x1
+		vertices.push_back(0.0f);                    // y1
+		vertices.push_back(i * spacing);             // z1
+		vertices.push_back(columns / 2 * spacing);  // x2
+		vertices.push_back(0.0f);                    // y2
+		vertices.push_back(i * spacing);             // z2
+	}
+	// Create lines along the Z axis
+	for (int j = -columns / 2; j <= columns / 2; ++j) {
+		vertices.push_back(j * spacing);             // x1
+		vertices.push_back(0.0f);                    // y1
+		vertices.push_back(-rows / 2 * spacing);    // z1
+		vertices.push_back(j * spacing);             // x2
+		vertices.push_back(0.0f);                    // y2
+		vertices.push_back(rows / 2 * spacing);     // z2
+	}
+	return vertices;
+}
+
+void Grid::DrawGrid(glm::mat4 &mvp)
+{
 	//Shader program (vertex + fragment)
 	glUseProgram(shaderProgram_); //Use shader program
 
@@ -56,12 +87,9 @@ void Grid::Draw3DLine(float x1, float y1, float z1, float x2, float y2, float z2
 
 	//set line color
 	GLint colorLoc = glGetUniformLocation(shaderProgram_, "gridColor");
-	glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); //White color
+	glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); // White
 
-	//DRAW!
-	glDrawArrays(GL_LINES, 0, 2); //GL_LINES mode, starting at 0, draw 2 vertices
-
-	glBindVertexArray(0); //Unbind VAO
-
-	//CAREFULL, WE DIDN'T CLEAN UP VAO AND VBO as they are STATIC now!
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_LINES, 0, vertexCount_);
+	glBindVertexArray(0);
 }

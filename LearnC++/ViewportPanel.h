@@ -2,6 +2,7 @@
 #include "Panel.h"
 #include <memory>
 #include "Grid.h"
+#include "Camera.h"
 
 class ViewportPanel : public Panel
 {
@@ -25,4 +26,5 @@ public:
 
 	std::unique_ptr<Viewport> viewport_;
 	std::unique_ptr<Grid> grid_;
+	std::unique_ptr<Camera> camera_;
 };

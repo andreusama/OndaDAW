@@ -3,7 +3,7 @@
 #include "imgui.h"
 
 
-ViewportPanel::ViewportPanel(int w, int h) : Panel("Viewport"), viewport_(std::make_unique<Viewport>(0, 0, 0, w, h)), grid_(std::make_unique<Grid>())
+ViewportPanel::ViewportPanel(int w, int h) : Panel("Viewport"), viewport_(std::make_unique<Viewport>(0, 0, 0, w, h)), grid_(std::make_unique<Grid>(10, 10)), camera_(std::make_unique<Camera>())
 {
 	CreateViewportFramebuffer();
 }
@@ -71,7 +71,7 @@ void ViewportPanel::Render()
 	glBindFramebuffer(GL_FRAMEBUFFER, viewport_.get()->fbo);
 	glViewport(0, 0, viewport_.get()->width, viewport_.get()->height);
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.2f, 0.3f, 0.5f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// 2. Render your 3D scene
@@ -85,7 +85,11 @@ void ViewportPanel::Render()
 	ImGui::End();
 }
 
-void ViewportPanel::RenderScene() 
+void ViewportPanel::RenderScene()
 {
-	grid_.get()->Draw3DLine(-10.0f, 0.0f, 0.0f, 10.0f, 0.0f, 0.0f, glm::mat4(1.0f));
+	glm::mat4 model = glm::mat4(1.0f);
+	float aspectRatio = (float)viewport_->width / (float)viewport_->height;
+	glm::mat4 mvp = camera_->GetMVPMatrix(model, aspectRatio);
+
+	grid_->DrawGrid(mvp);
 }
