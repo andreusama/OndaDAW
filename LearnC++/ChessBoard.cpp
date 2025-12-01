@@ -75,6 +75,7 @@ void ChessBoard::GenerateBoardGeometry()
             bool isWhite = (row + col) % 2 == 0;
             glm::vec3 color = isWhite ? glm::vec3(0.9f, 0.9f, 0.9f) : glm::vec3(0.2f, 0.2f, 0.2f);
 
+           
             // Calculate square position
             float x = col * SQUARE_SIZE - boardOffset;
             float z = row * SQUARE_SIZE - boardOffset;

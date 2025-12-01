@@ -16,6 +16,15 @@
     <Filter Include="Other">
       <UniqueIdentifier>{B2C3D4E5-F6A7-4890-BCDE-F01234567890}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Textures">
+      <UniqueIdentifier>{C3D4E5F6-A7B8-4901-CDEF-012345678901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fonts">
+      <UniqueIdentifier>{D4E5F6A7-B8C9-4012-DEF0-123456789012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderers">
+      <UniqueIdentifier>{E5F6A7B8-C9D0-4123-EF01-234567890123}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -50,6 +59,15 @@
     </ClCompile>
     <ClCompile Include="ChessBoard.cpp">
       <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Renderers</Filter>
     </ClCompile>
     <ClCompile Include="$(SolutionDir)ThirdParty\imgui-src\imgui.cpp">
       <Filter>ImGui</Filter>
@@ -106,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="ChessBoard.h">
       <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Renderers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -140,10 +140,13 @@
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="LearnC++.cpp" />
     <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UIModule.cpp" />
     <ClCompile Include="ViewportPanel.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -160,10 +163,13 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChessBoard.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="UIModule.h" />
     <ClInclude Include="ViewportPanel.h" />
     <ClInclude Include="Window.h" />
