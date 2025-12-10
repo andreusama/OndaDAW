@@ -4,6 +4,7 @@
 #include "Grid.h"
 #include "ChessBoard.h"
 #include "Camera.h"
+#include "UIModule.h"
 
 class InputModule;
 
@@ -31,5 +32,6 @@ public:
 	std::unique_ptr<Grid> grid_;
 	std::unique_ptr<ChessBoard> chessBoard_;
 	std::unique_ptr<Camera> camera_;
+	std::unique_ptr<UIModule> uiModule_;
 	InputModule* inputModule_;
 };

@@ -1,76 +1,28 @@
 #include "UIModule.h"
-#include "ViewportPanel.h"
+#include <glm/gtc/matrix_transform.hpp>
 
-void UIModule::Init(SDL_Window* window, SDL_GLContext gl_context) {
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    ImGui::StyleColorsDark();
-    SDL_GL_MakeCurrent(window, gl_context);
-
-    ImGui_ImplSDL3_InitForOpenGL(window, gl_context);
-    ImGui_ImplOpenGL3_Init();
-
-}
-
-void UIModule::AddViewportPanel(InputModule* inputModule)
+UIModule::UIModule() : textRenderer_(std::make_unique<TextRenderer>())
 {
-	AddPanel(std::make_unique<ViewportPanel>(800, 600, inputModule));
 }
 
-void UIModule::Shutdown() {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL3_Shutdown();
-    ImGui::DestroyContext();
+UIModule::~UIModule()
+{
 }
 
-void UIModule::ProcessEvent(SDL_Event* event) {
-    ImGui_ImplSDL3_ProcessEvent(event);
-}
+void UIModule::Render(int viewportWidth, int viewportHeight)
+{
+    // Set up orthographic projection for 2D text rendering in screen space
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(viewportWidth),
+                                       0.0f, static_cast<float>(viewportHeight));
+    textRenderer_->SetProjection(projection);
 
-void UIModule::NewFrame() {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL3_NewFrame();
-    ImGui::NewFrame();
-}
+    // Enable blending for text transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-void UIModule::RenderPanels(float deltaTime) {
-    for (auto& panel : panels_) {
-        ImGui::Begin(panel.get()->GetName().c_str());
-        panel.get()->Render(deltaTime);
-        ImGui::End();
-    }
-    ImGui::Render();
+    // Example: Render some text
+    // You can call this from anywhere you want to display text
+    textRenderer_->RenderText("Hello World", 25.0f, 25.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-}
-
-void UIModule::Update(float deltaTime) {
-    
-    NewFrame();
-
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking |
-        ImGuiWindowFlags_NoTitleBar |
-        ImGuiWindowFlags_NoCollapse |
-        ImGuiWindowFlags_NoResize |
-        ImGuiWindowFlags_NoMove |
-        ImGuiWindowFlags_NoBringToFrontOnFocus |
-        ImGuiWindowFlags_NoNavFocus;
-
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(io.DisplaySize);
-
-    ImGui::Begin("DockSpaceRoot", nullptr, window_flags);
-
-    ImGui::DockSpace(ImGui::GetID("MainDockSpace"));
-    ImGui::End();
-    
-    RenderPanels(deltaTime);
-}
-
-void UIModule::AddPanel(std::unique_ptr<Panel> panel) {
-    panels_.emplace_back(std::move(panel));
+    glDisable(GL_BLEND);
 }

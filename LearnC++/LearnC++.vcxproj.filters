@@ -39,6 +39,9 @@
     <ClCompile Include="UIModule.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="UIEditorModule.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
     <ClCompile Include="InputModule.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -68,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="$(SolutionDir)ThirdParty\imgui-src\imgui.cpp">
       <Filter>ImGui</Filter>
@@ -99,6 +105,9 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="UIModule.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEditorModule.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="InputModule.h">
@@ -133,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>Other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

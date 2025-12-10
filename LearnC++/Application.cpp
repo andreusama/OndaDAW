@@ -4,11 +4,11 @@
 #include "Window.h"
 #include <SDL3/SDL.h>
 #include <stdexcept>
-#include "UIModule.h"
+#include "UIEditorModule.h"
 #include <memory>
 #include <gl/GL.h>
 
-Application::Application(): window_(std::make_unique<Window>("Mini DAW", 800, 600)), running_(false), ui_(std::make_unique<UIModule>()), inputModule_(std::make_unique<InputModule>())
+Application::Application(): window_(std::make_unique<Window>("Mini DAW", 800, 600)), running_(false), ui_(std::make_unique<UIEditorModule>()), inputModule_(std::make_unique<InputModule>())
 {
 }
 

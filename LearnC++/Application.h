@@ -1,7 +1,7 @@
 // Application.h
 #pragma once
 #include "Window.h"
-#include "UIModule.h"
+#include "UIEditorModule.h"
 #include "InputModule.h"
 #include <memory>
 
@@ -16,7 +16,7 @@ public:
 	float deltaTime_;
 private:
     std::unique_ptr<Window> window_;
-    std::unique_ptr<UIModule> ui_;
+    std::unique_ptr<UIEditorModule> ui_;
     std::unique_ptr<InputModule> inputModule_;
     bool running_;
 };

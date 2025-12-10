@@ -1,25 +1,16 @@
 #pragma once
-#include "SDL3/SDL.h"
-#include "imgui.h"
-#include "imgui_impl_sdl3.h"
-#include "imgui_impl_opengl3.h"
 #include <memory>
-#include "Panel.h"
-
-class InputModule;
+#include "TextRenderer.h"
 
 class UIModule {
     public:
-        void Init(SDL_Window*, SDL_GLContext);
-        void Shutdown();
-        void ProcessEvent(SDL_Event*);
-        void NewFrame();
-        void RenderPanels(float deltaTime);
-        void AddPanel(std::unique_ptr<Panel> panel);
-        void AddViewportPanel(InputModule* inputModule);
-        void Update(float deltaTime);
+        UIModule();
+        ~UIModule();
+
+        void Render(int viewportWidth, int viewportHeight);
+        TextRenderer* GetTextRenderer() { return textRenderer_.get(); }
 
     private:
-        std::vector<std::unique_ptr<Panel>> panels_;
+        std::unique_ptr<TextRenderer> textRenderer_;
 };  
 

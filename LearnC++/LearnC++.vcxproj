@@ -110,13 +110,13 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)\ThirdParty\imgui-src;$(SolutionDir)\ThirdParty\sdl3-src\include;$(SolutionDir)\ThirdParty\sdl3\lib\x64;$(SolutionDir)\ThirdParty\imgui\lib\x64;$(SolutionDir)\ThirdParty\imgui-src\backends;$(SolutionDir)\ThirdParty\miniaudio-0.11.22;$(SolutionDir)\ThirdParty\glew-2.1.0\include\GL;$(SolutionDir)\ThirdParty\glm;D:\Fork\OndaDAW\ThirdParty\glew-2.1.0\lib\Release\x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\ThirdParty\imgui-src;$(SolutionDir)\ThirdParty\sdl3-src\include;$(SolutionDir)\ThirdParty\sdl3\lib\x64;$(SolutionDir)\ThirdParty\imgui\lib\x64;$(SolutionDir)\ThirdParty\imgui-src\backends;$(SolutionDir)\ThirdParty\miniaudio-0.11.22;$(SolutionDir)\ThirdParty\glew-2.1.0\include\GL;$(SolutionDir)\ThirdParty\glm;$(SolutionDir)\ThirdParty;$(SolutionDir)\ThirdParty\freetype\include;D:\Fork\OndaDAW\ThirdParty\glew-2.1.0\lib\Release\x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\sdl3\lib\x64;$(SolutionDir)\ThirdParty\imgui\lib\x64;$(SolutionDir)\ThirdParty\openGL\lib\x64;D:\Fork\OndaDAW\ThirdParty\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL3.lib;OpenGL32.Lib;glew32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\sdl3\lib\x64;$(SolutionDir)\ThirdParty\imgui\lib\x64;$(SolutionDir)\ThirdParty\openGL\lib\x64;$(SolutionDir)\ThirdParty\freetype\release dll\win64;D:\Fork\OndaDAW\ThirdParty\glew-2.1.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3.lib;OpenGL32.Lib;glew32.lib;glew32s.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,8 +145,10 @@
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="LearnC++.cpp" />
     <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="Square.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="UIEditorModule.cpp" />
     <ClCompile Include="UIModule.cpp" />
     <ClCompile Include="ViewportPanel.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -168,8 +170,10 @@
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="Square.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="UIEditorModule.h" />
     <ClInclude Include="UIModule.h" />
     <ClInclude Include="ViewportPanel.h" />
     <ClInclude Include="Window.h" />

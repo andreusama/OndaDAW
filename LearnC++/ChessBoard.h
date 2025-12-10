@@ -2,6 +2,8 @@
 #include <glew.h>
 #include <glm.hpp>
 #include <vector>
+#include <memory>
+#include "Square.h"
 
 class ChessBoard {
 public:
@@ -14,14 +16,28 @@ private:
     void InitializeShader();
     void GenerateBoardGeometry();
 
-    std::vector<float> vertices_;
-    std::vector<unsigned int> indices_;
-    int indexCount_;
+    std::vector<std::unique_ptr<Square>> squares_;
 
-    GLuint VAO;
-    GLuint VBO;
-    GLuint EBO;
+    // White squares data
+    std::vector<float> whiteVertices_;
+    std::vector<unsigned int> whiteIndices_;
+    int whiteIndexCount_;
+    GLuint whiteVAO_;
+    GLuint whiteVBO_;
+    GLuint whiteEBO_;
+
+    // Black squares data
+    std::vector<float> blackVertices_;
+    std::vector<unsigned int> blackIndices_;
+    int blackIndexCount_;
+    GLuint blackVAO_;
+    GLuint blackVBO_;
+    GLuint blackEBO_;
+
     GLuint shaderProgram_;
+
+    std::unique_ptr<Texture> whiteSquareTexture_;
+    std::unique_ptr<Texture> blackSquareTexture_;
 
     const int BOARD_SIZE = 8;
     const float SQUARE_SIZE = 1.0f;

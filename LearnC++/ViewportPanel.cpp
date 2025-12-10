@@ -4,7 +4,7 @@
 #include "InputModule.h"
 
 
-ViewportPanel::ViewportPanel(int w, int h, InputModule* inputModule) : Panel("Viewport"), viewport_(std::make_unique<Viewport>(0, 0, 0, w, h)), grid_(std::make_unique<Grid>(8, 8)), chessBoard_(std::make_unique<ChessBoard>()), camera_(std::make_unique<Camera>()), inputModule_(inputModule)
+ViewportPanel::ViewportPanel(int w, int h, InputModule* inputModule) : Panel("Viewport"), viewport_(std::make_unique<Viewport>(0, 0, 0, w, h)), grid_(std::make_unique<Grid>(8, 8)), chessBoard_(std::make_unique<ChessBoard>()), camera_(std::make_unique<Camera>()), uiModule_(std::make_unique<UIModule>()), inputModule_(inputModule)
 {
 	CreateViewportFramebuffer();
 }
@@ -103,4 +103,5 @@ void ViewportPanel::RenderScene()
 
 	chessBoard_->DrawBoard(mvp);
 	grid_->DrawGrid(mvp);
+	uiModule_->Render(viewport_->width, viewport_->height);
 }
